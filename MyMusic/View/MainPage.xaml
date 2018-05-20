@@ -1,0 +1,66 @@
+﻿<Page
+    x:Class="MyMusic.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Controls="using:MyMusic.Control"
+    xmlns:Model="using:MyMusic.Model"
+    mc:Ignorable="d"
+    DataContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="LeftNavListItem">
+            <Grid>
+                <Controls:LeftNavListItemControl ModelSource="{Binding Mode=OneWay}"></Controls:LeftNavListItemControl>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <SplitView x:Name="mySplitView" DisplayMode="CompactInline" OpenPaneLength="180" IsPaneOpen="True" CompactPaneLength="48" Grid.Row="0">
+            <SplitView.Pane>
+                <Grid BorderThickness="0,0,1,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer FontSize="12" VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer.Foreground>
+                            <SolidColorBrush Color="{StaticResource LeftNavigatorForeground}"/>
+                        </ScrollViewer.Foreground>
+                        <StackPanel>
+                            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent" Click="AdaptiveNavigator"
+								Content="&#xE700;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Stretch" Width="40" Height="40" BorderThickness="0"/>
+                            <ListView x:Name="NavListView" ItemsSource="{x:Bind MainPageVm.LeftNavListSource}"  ItemTemplate="{StaticResource LeftNavListItem}" 
+                                      ItemContainerStyle="{StaticResource ListViewItemStyle}" IsItemClickEnabled="True" ItemClick="NavList_ItemClick"></ListView>
+                            <TextBlock x:Name="myMusicText" Text="我的音乐" Margin="12,12,0,6"/>
+                            <ListView x:Name="NavMyMusicListView" ItemsSource="{x:Bind MainPageVm.LeftNavMyMusicListSource}" ItemTemplate="{StaticResource LeftNavListItem}" 
+                                      ItemContainerStyle="{StaticResource ListViewItemStyle}" IsItemClickEnabled="True" ItemClick="NavMyMusicList_ItemClick"/>
+                            <Button x:Name="expandButton" Content="&#xE970;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  Margin="4,2,0,0" Width="40" Height="40" Background="Transparent" 
+                                    Style="{StaticResource Nav_PureButtonStyle}" Click="ExpandPanel" Visibility="Collapsed">
+                                <Button.Foreground>
+                                    <SolidColorBrush Color="{StaticResource LeftNavigatorForeground}"></SolidColorBrush>
+                                </Button.Foreground>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <Controls:PersonalInfoControl Grid.Row="1" HorizontalAlignment="Left"/>
+                </Grid>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Frame x:Name="ContentFrame" SourcePageType="{x:Bind ContentFrameVm.FrameType.Type,Mode=TwoWay}">
+                    <Frame.Background>
+                        <SolidColorBrush Color="{StaticResource ContentFrameBackgroud}"/>
+                    </Frame.Background>
+                </Frame>
+            </SplitView.Content>
+        </SplitView>
+        <Controls:PlayingBarControl Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource PlayingBarBorderColor}"></Controls:PlayingBarControl>
+    </Grid>
+</Page>
