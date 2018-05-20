@@ -4,7 +4,7 @@ MyMusic 0.5 版本新鲜出炉，人生一大错觉，总觉得项目就快打�
 
 首先，首页已经做好了：
 
-![](http://pic.caigoubao.cc/590732/%E5%A4%A7%E4%BA%8C%E4%B8%8B/%E4%BB%99%E8%8D%89/%E6%9C%9F%E4%B8%AD/img1.png)
+![](http://p8ekwajjb.bkt.clouddn.com/img1.png)
 
 是不是很帅，，，＼（＠￣∇￣＠）／
 
@@ -68,3 +68,8 @@ And，下面是一些规范：
 
 最最重要的，上传前请把项目的obj和bin文件夹删掉；下载项目运行时请先重新生成解决方案
 
+
+
+
+
+酷！！！ by yh!!
