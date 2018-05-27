@@ -1,0 +1,212 @@
+﻿<UserControl
+    x:Class="MyMusic.MyControl.PlayingBarControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic.MyControl"
+    xmlns:convert="using:MyMusic.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Model="using:MyMusic.Model"
+    xmlns:extension="using:MyMusic.Extension"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <convert:VolumeConverter x:Key="volumeConverter"/>
+        <convert:ProgressConverter x:Key="progressConverter"/>
+        <convert:ProgressConverterForStr x:Key="progressConverterForStr"/>
+    </UserControl.Resources>
+
+    <Grid Background="#FFfafafc" BorderThickness="0,1,0,0" BorderBrush="#FF969696">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LayoutVisualStates">
+                <VisualState x:Name="WideLayout">
+                    <VisualState.Setters>
+                        <Setter Target="text1.Visibility" Value="Visible"></Setter>
+                        <Setter Target="ArtistBlock.Visibility" Value="Visible"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.Setters>
+                        <Setter Target="text1.Visibility" Value="Collapsed"></Setter>
+                        <Setter Target="ArtistBlock.Visibility" Value="Collapsed"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <MediaElement x:Name="PlayingSongMedia"  AutoPlay="True" MediaOpened="PlayingSong_MediaOpened" MediaEnded="PlayingSong_MediaEnded"
+                      Volume="{Binding ElementName=volume, Path=Value, Converter={StaticResource volumeConverter}, Mode=TwoWay}"/>
+        <Grid  Height="60" Margin="0" Width="60" PointerEntered="ExpandButton_PointerEntered" PointerExited="ExpandButton_PointerExited">
+            <Grid.Background>
+                <ImageBrush x:Name="coverImage"  ImageSource="{x:Bind PlayingBarVm.CurrentPlayingSong.PicUrl}" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <Button x:Name="expandButton" Style="{StaticResource Nav_PureButtonStyle}" Background="Black" FontSize="35" Opacity="0.5"
+				 Height="60" Width="60"	Foreground="White" Content="&#xE740;" FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    Click="ExpandButton_Click" Visibility="Collapsed"/>
+        </Grid>
+
+        <StackPanel Margin="30,0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button  x:Name="Previous" Click="Previous_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource PlayingBarControlButtonStyle}" Width="30" Height="30" Background="Transparent" Margin="0,0,10,0">
+                <Path Data="M0,0L6.8219922,0 6.8219922,16 25.37,0.74398804 25.37,16.001007 25.37,31.259003 6.8219922,16.001007 6.8219922,32 0,32z" Stretch="Uniform" Fill="White" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" Width="14" Height="14">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="0" />
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </Button>
+            <Button x:Name="PlayButton" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource PlayingBarControlButtonStyle}" Width="40" Height="40" Background="Transparent" Click="PlayButton_Click">
+                <Path Data="M0,0L25.194,16 0,32z" Stretch="Uniform" Fill="White" Width="14" Height="14" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                    <Path.RenderTransform>
+                        <CompositeTransform TranslateX="1"/>
+                    </Path.RenderTransform>
+                </Path>
+            </Button>
+            <Button x:Name="PauseButton" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource PlayingBarControlButtonStyle}" Foreground="White" FontSize="18" FontWeight="ExtraBlack"
+                    Content="&#xE769;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Width="40" Height="40" Background="Transparent" Click="PauseButton_Click"/>
+            <Button x:Name="Next" Click="Next_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource PlayingBarControlButtonStyle}" Width="30" Height="30" Background="Transparent" Margin="10,0,0,0">
+                <Path Data="M0,0.74398804L18.548009,16.001984 0,31.259003 0,16.001984z M18.548009,0L25.370002,0 25.370002,32 18.548009,32 18.548009,16.001984z" Stretch="Uniform" Fill="White" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" Width="14" Height="14">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="0" />
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </Button>
+        </StackPanel>
+        <Grid Grid.Column="2" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" HorizontalAlignment="Left" Margin="0,4,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock x:Name="SongNameBlock" Margin="0" TextWrapping="Wrap" Text="{x:Bind PlayingBarVm.CurrentPlayingSong.Name}" FontSize="13.333">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{StaticResource PlayingBarTextColor}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <TextBlock x:Name="text1" Margin="4,0" TextWrapping="Wrap" Text=" - " FontSize="13.333">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{StaticResource PlayingBarTextBackground}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <TextBlock x:Name="ArtistBlock" Margin="4,0" TextWrapping="Wrap" Text="{x:Bind PlayingBarVm.CurrentPlayingSong.Artist}" FontSize="13.333">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{StaticResource PlayingBarTextBackground}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" Margin="0,5,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Margin="0" TextWrapping="Wrap" Text="{Binding ElementName=PlayingSongMedia, Path=Position, Converter={StaticResource progressConverterForStr}, Mode=OneWay}" FontSize="12">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{StaticResource PlayingBarTextBackground}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <TextBlock Margin="0" TextWrapping="Wrap" Text=" / " FontSize="12">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{StaticResource PlayingBarTextBackground}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <TextBlock x:Name="SongLengthBlock" Margin="0" TextWrapping="Wrap" Text="{x:Bind PlayingBarVm.CurrentPlayingSong.Length}" FontSize="12">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{StaticResource PlayingBarTextBackground}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </StackPanel>
+            <Slider x:Name="ProgressSlider" Margin="0" VerticalAlignment="Top" Grid.Row="1" Style="{StaticResource SliderStyle_Music}" IsThumbToolTipEnabled="False"
+                   Value="{Binding ElementName=PlayingSongMedia, Path=Position, Converter={StaticResource progressConverter}, Mode=TwoWay}" >
+                <Slider.Background>
+                    <SolidColorBrush Color="{StaticResource PlayingBarSliderColor}"/>
+                </Slider.Background>
+            </Slider>
+        </Grid>
+        <StackPanel Margin="12,0,0,0" Grid.Column="3" Orientation="Horizontal">
+            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent" x:Name="disLikeButton" Click="DisLikeButton_Click"
+								Content="&#xEB51;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Stretch" Width="40" Height="40" BorderThickness="0"/>
+            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent" x:Name="likeButton" Click="LikeButton_Click"
+								Content="&#xEB52;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Stretch" Width="40" Height="40" BorderThickness="0">
+                <Button.Foreground>
+                    <SolidColorBrush Color="{StaticResource ColorRed}"></SolidColorBrush>
+                </Button.Foreground>
+            </Button>
+            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent"  x:Name="RepeatAllButton" Click="RepeatAllButton_Click"
+								Content="&#xE8EE;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Stretch" Width="40" Height="40" BorderThickness="0"/>
+            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent" x:Name="RepeatOneButton" Click="RepeatOneButton_Click"
+								Visibility="Collapsed" Content="&#xE8ED;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Stretch" Width="40" Height="40" BorderThickness="0"/>
+            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent" x:Name="ShuffleButton" Click="ShuffleButton_Click"
+								Visibility="Collapsed" Content="&#xE8B1;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Stretch" Width="40" Height="40" BorderThickness="0"/>
+            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent" x:Name="SequentialButton" Click="SequentialButton_Click"
+								Visibility="Collapsed" Content="&#xE8FD;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Stretch" Width="40" Height="40" BorderThickness="0"/>
+            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent" Click="VolumeButton_Click"
+								Content="&#xE767;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Stretch" Width="40" Height="40" BorderThickness="0">
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout>
+                        <Slider x:Name="volume" Orientation="Vertical" Height="100" Width="30" Value="50" Maximum="100" />
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </Button>
+            <Button Style="{StaticResource Nav_PureButtonStyle}" Margin="4,2,0,0" Background="Transparent" Click="HiddenPlayListButton_Click" 
+							x:Name="HiddenPlayListButton" VerticalAlignment="Stretch" BorderThickness="0">
+                <Button.Content>
+                    <Grid>
+                        <Button Content="&#xE90B;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Background="Transparent" Style="{StaticResource Nav_PureButtonStyle}"
+                                />
+                        <Border VerticalAlignment="Center" Margin="22,2,10,0" CornerRadius="5" Background="#FF969696" Width="14">
+                            <TextBlock x:Name="PlayListCount" TextWrapping="Wrap" Text="{x:Bind PlayingBarVm.ListCount.DisPlayCount,Mode=TwoWay}" FontSize="8" Foreground="White" Margin="2,-1,2,0"/>
+                        </Border>
+                    </Grid>
+                </Button.Content>
+                
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout x:Name="HiddenFlyout">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Padding" Value="0"></Setter>
+                                <Setter Property="MaxHeight" Value="400"/>
+                                <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"></Setter>
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" BorderThickness="0,0,0,1" BorderBrush="#FF666666">
+                                <TextBlock Width="360" Text="      播放列表" Margin="10"></TextBlock>
+                                <Button Margin="4,2,0,0" Background="Transparent" Style="{StaticResource Nav_PureButtonStyle}"
+							x:Name="ClearPlayListButton" VerticalAlignment="Stretch" BorderThickness="0" Click="ClearPlayListButton_Click">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE74D;" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                                            <TextBlock TextWrapping="Wrap" Text=" 清空" FontSize="13" />
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                            <ListView x:Name="HiddenPlayList" Height="350" Width="450" ItemsSource="{x:Bind PlayingBarVm.PlayingList}" ItemContainerStyle="{StaticResource ListViewItemStyle}" 
+                               Margin="0" Padding="0" extension:ChangeRowColor.Color="#F9F9F9" IsItemClickEnabled="True" ItemClick="HiddenPlayList_ItemClick">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="Model:PlayingSongForSqlModel">
+                                        <StackPanel Orientation="Horizontal" Margin="0" Padding="0">
+                                            <TextBlock Width="25" Height="25" Text="&#xE768;" FontFamily="{ThemeResource SymbolThemeFontFamily}"  VerticalAlignment="Center" Foreground="Transparent"></TextBlock>
+                                            <TextBlock Width="240" Text="{x:Bind Name}"  FontSize="13"></TextBlock>
+                                            <TextBlock Width="130" Text="{x:Bind Artist}" Foreground="#FF666666" FontSize="11" VerticalAlignment="Center"></TextBlock>
+                                            <TextBlock Text="{x:Bind Length}" Foreground="#FF666666"  FontSize="11" VerticalAlignment="Center"></TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

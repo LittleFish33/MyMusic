@@ -1,0 +1,75 @@
+﻿<Page
+    x:Class="MyMusic.View.ExploreMusicPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:Model="using:MyMusic.Model"
+    xmlns:Controls="using:MyMusic.MyControl"
+    DataContext="{Binding ExploreMusic, Source={StaticResource Locator}}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="LeftNavListItem">
+            <Grid Background="Black">
+                <Image Source="ms-appx:///Assets/StoreLogo.png"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot Style="{StaticResource ExploreMusic_PivotStyle}" Title="发现音乐">
+            <PivotItem >
+                <PivotItem.Header>
+                    <TextBlock Text="个性推荐" FontSize="16"/>
+                </PivotItem.Header>
+                <ScrollViewer Style="{StaticResource ExploreMusic_ScrollViewerStyle}" Padding="24,0" Margin="0,0,-12,0">
+                    <StackPanel>
+                        <FlipView x:Name="headerFlipView" Height="180" ItemsSource="{x:Bind ExploreMusicVm.HeaderItems}">
+                            <FlipView.ItemTemplate>
+                                <DataTemplate x:DataType="Model:Recommendheader">
+                                    <Grid Background="{x:Bind background}" PointerReleased="Header_PointerReleased">
+                                        <Image Source="{x:Bind pictureUrl}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
+                        <Grid>
+                            <Controls:ExploreRecommendMiddleControl></Controls:ExploreRecommendMiddleControl>
+                        </Grid>
+                        <Controls:RecommendContentControl></Controls:RecommendContentControl>
+                        <StackPanel>
+                            <RelativePanel BorderThickness="0,0,0,1" BorderBrush="#FFe9e9eb">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="ms-appx:///Assets/ExploreMusicPage/recommendMv.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="推荐MV" Margin="20,0,0,0"></TextBlock>
+                                </StackPanel>
+                                <TextBlock x:Name="MoreMv" Text="更多 >" RelativePanel.AlignRightWithPanel="True" Foreground="#FF969696"  Margin="0,0,0,6" PointerReleased="MoreMv_PointerReleased"></TextBlock>
+                            </RelativePanel>
+                            <Grid>
+                                <GridView x:Name="RecommendMv_GridView" ItemsSource="{x:Bind ExploreMusicVm.RecommendMvItems}">
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate x:DataType="Model:RecommendMVModelResult">
+                                            <StackPanel Margin="10" PointerReleased="RecommendMv_PointerReleased">
+                                                <Image Width="210" Height="150" Source="{x:Bind picUrl}"></Image>
+                                                <TextBlock Text="{x:Bind name}" Width="210" TextTrimming="CharacterEllipsis"></TextBlock>
+                                                <TextBlock Text="{x:Bind artistName}" Width="210" TextTrimming="CharacterEllipsis" Foreground="#FF969696"></TextBlock>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem>
+                <PivotItem.Header>
+                    <TextBlock Text="歌单" FontSize="16"/>
+                </PivotItem.Header>
+                <Grid/>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</Page>

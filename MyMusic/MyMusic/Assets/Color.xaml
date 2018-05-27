@@ -1,0 +1,28 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic.Assets">
+
+    <Color x:Key="ColorRed">#FFdf3b3b</Color>
+    
+    <!-- MainPage -->
+    <Color x:Key="LeftNavigatorBorderColor" >#FFe9e9eb</Color>
+    <Color x:Key="LeftNavigatorForeground">#FF969696</Color>
+    <Color x:Key="PlayingBarBorderColor">#FFfafafc</Color>
+
+    <!-- PersonalInfoControl -->
+    <Color x:Key="PersonalInfoTextColor" >#FF333333</Color>
+
+    <!-- ContentFrame -->
+    <Color x:Key="ContentFrameBackgroud">#FFfafafc</Color>
+    
+    <!-- ExploreRecommendMiddleControl -->
+    <Color x:Key="ERMiddleBorderColor" >#FFe9e9eb</Color>
+    <Color x:Key="ERMiddleCircleBorderColor" >#FFdf3b3b</Color>
+    
+    <!-- PlayingBar -->
+    <Color x:Key="PlayingBackGround">#FFfafafc</Color>
+    <Color x:Key="PlayingBarTextColor">#FF333333</Color>
+    <Color x:Key="PlayingBarTextBackground">#FF666666</Color>
+    <Color x:Key="PlayingBarSliderColor">#FF969696</Color>
+</ResourceDictionary>
