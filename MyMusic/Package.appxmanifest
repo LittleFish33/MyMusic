@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="933aa9d9-92b9-4190-9a64-9137ef73f226" Publisher="CN=LittleFish" Version="1.0.0.0" />
+  <Identity Name="933aa9d9-92b9-4190-9a64-9137ef73f228" Publisher="CN=LittleFish" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="933aa9d9-92b9-4190-9a64-9137ef73f226" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>MyMusic</DisplayName>

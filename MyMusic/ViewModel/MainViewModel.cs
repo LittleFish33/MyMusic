@@ -63,6 +63,7 @@ namespace MyMusic.ViewModel
                 new LeftNavListItemModel(Windows.UI.Xaml.Controls.Symbol.Download,"下载管理",typeof(BlankPage)),
                 new LeftNavListItemModel(Windows.UI.Xaml.Controls.Symbol.Clock,"最近播放",typeof(BlankPage)),
                 new LeftNavListItemModel(Windows.UI.Xaml.Controls.Symbol.Like,"我的收藏",typeof(BlankPage)),
+                new LeftNavListItemModel(Windows.UI.Xaml.Controls.Symbol.Like,"我的动态",typeof(PersonalTrendView)),
             };
         }
     }
