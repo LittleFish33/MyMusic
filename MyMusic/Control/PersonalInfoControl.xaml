@@ -3,20 +3,24 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MyMusic.Control"
+    xmlns:viewModel ="using:MyMusic.ViewModel"
+    xmlns:Model ="using:MyMusic.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+
     <Grid  BorderThickness="0,1,0,0" BorderBrush="#FF969696" Width="180">
         <StackPanel Orientation="Horizontal">
             <Ellipse Width="25" Height="25" x:Name="ellipsePortrait" Margin="12" Grid.RowSpan="3" VerticalAlignment="Center">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="ms-appx:///Assets/PersonalInfoControl/DefaultPortrait.jpg" Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource="{x:Bind viewModel.Avatar,Mode=OneWay}" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
             </Ellipse>
-            <TextBlock Text="未登录" FontSize="12" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="ellipsePortrait" 
+
+            <TextBlock PointerReleased="LogIn_PointerReleased"  Text="{x:Bind viewModel.nickname, Mode=TwoWay}" FontSize="12" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="ellipsePortrait" 
                        MaxWidth="70" Margin="0" VerticalAlignment="Center" Width="50">
                 <TextBlock.Foreground>
                     <SolidColorBrush Color="{StaticResource PersonalInfoTextColor}"/>
