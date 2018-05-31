@@ -1,0 +1,58 @@
+﻿<UserControl
+    x:Class="MyMusic.Control.UserBasicInfor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:Model="using:MyMusic.Model">
+
+    <Grid Background="#FFe9e9eb">
+        <StackPanel Margin="0,20,0,0">
+            <TextBlock Name="name" Text="{x:Bind user.nickname}" HorizontalAlignment="Center" FontWeight="Bold" FontSize="28" Padding="0,10,0,0"></TextBlock>
+            <TextBlock MinWidth="50" Name="introduction" Text="{x:Bind changeText.Text, Mode=OneWay}" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" Padding="0,10,0,0" FontSize="10" Margin="5,0,5,0" PointerReleased="ChangeText"></TextBlock>
+            <TextBox KeyDown="changeText_KeyDown" BorderThickness="1" Name="changeText" Text="{x:Bind user.Signnature}" Padding="0,10,0,0" FontSize="10" Margin="5,0,5,0" Visibility="Collapsed"></TextBox>
+            <TextBlock Name="forcus" Text="关注" HorizontalAlignment="Center" Padding="0,10,0,0"></TextBlock>
+            <Line Stretch="Fill" X1="1" Stroke="Gray" StrokeThickness="1" VerticalAlignment="Top" Margin="10,5,10,5"/>
+            <Grid>
+                <GridView SelectionMode="None" ItemsSource="{x:Bind ForcusUserItems}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="Model:UsersResultForDisplay">
+                            <StackPanel Margin="2.5" Width="80" Height="80">
+                                <Ellipse HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="50">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{x:Bind avatarUrl}" Stretch="UniformToFill"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock Text="{x:Bind nickname}" FontSize="11" HorizontalAlignment="Center"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </Grid>
+            <Button x:Name="down1" Content="&#xE70D;" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Stretch" Click="MoreForcusUser" Height="25" Visibility="Visible"></Button>
+            <Button x:Name="up1" Content="&#xE70E;" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Stretch" Click="MoreForcusUser" Height="25" Visibility="Collapsed"></Button>
+            <TextBlock Name='fan' Text="粉丝" HorizontalAlignment="Center" Padding="0,10,0,0"></TextBlock>
+            <Line Stretch="Fill" X1="1" Stroke="Gray" StrokeThickness="1" VerticalAlignment="Top" Margin="10,5,10,5"/>
+            <Grid>
+                <GridView SelectionMode="None" ItemsSource="{x:Bind FanUserItems}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="Model:UsersResultForDisplay">
+                            <StackPanel Margin="2.5" Width="80" Height="80">
+                                <Ellipse HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="50">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{x:Bind avatarUrl}" Stretch="UniformToFill"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock Text="{x:Bind nickname}" FontSize="11" HorizontalAlignment="Center"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </Grid>
+            <Button x:Name="down2" Content="&#xE70D;" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Stretch" Click="MoreFanUser" Height="25" Visibility="Visible"></Button>
+            <Button x:Name="up2" Content="&#xE70E;" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Stretch" Click="MoreFanUser" Height="25" Visibility="Collapsed"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

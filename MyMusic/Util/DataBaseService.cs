@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,16 @@ namespace MyMusic.Util
         private String SQL_SELECTALL_PLAYLIST = "SELECT * FROM PLAYLIST";
         private String SQL_UPDATEL_PLAYLIST = "UPDATE PLAYLIST" + " SET Url = ? WHERE ID = ?";
 
+        //一些需要的SQL语句——CommentList
+        private String SQL_INSERT_COMMENTLIST = "INSERT INTO COMMENTLIST (CommentId, UserId, Content, Name, picUrl, Date)" + "VALUES(?, ?, ?, ?, ?, ?);";
+        private String SQL_SELECTALL_COMMENTLIST = "SELECT * FROM COMMENTLIST WHERE UserId = ?";
+
+        //一些需要的SQL语句——SongerList
+        private String SQL_INSERT_SONGERLIST = "INSERT INTO SONGERLIST (UserId, SongerId, Name, picUrl)" + "VALUES(?, ?, ?, ?);";
+        private String SQL_SELECTALL_SONGERLIST = "SELECT * FROM SONGERLIST WHERE UserId = ?";
+        private String SQL_REMOVEALL_SONGERLIST = "DELETE FROM SONGERLIST WHERE UserId = ?";
+        private String SQL_REMOVE_SONGERLIST = "DELETE FROM SONGERLIST WHERE UserId = ? and SongerId = ?";
+        private String SQL_SELECT_SONGERLIST = "SELECT * FROM SONGERLIST WHERE UserId = ? and SongerId = ?";
 
         //单例模式
         private DataBaseService()
@@ -30,11 +41,14 @@ namespace MyMusic.Util
             //建立连接，如果MySQLite.db不存在，则会新建MySQLite.db
             conn = new SQLiteConnection("MyMusic.db");
             InitializePlayList();
+            InitializeCommentList();
+            InitializeSongerList();
             /*
              *下面这个方法是用来测试PlayingBar控件的，因为一开始还没做好歌曲搜索页面，因此没法添加歌曲到播放列表，所以这里先代码添加歌曲到播放列表
              * 等歌曲播放列表的功能做好了后可以注释掉这部分的测试代码
              */
             TestPlayList();
+            TestCommentList();
         }
 
         public static DataBaseService GetInstance()
@@ -152,5 +166,175 @@ namespace MyMusic.Util
             }
         }
 
+        public void InitializeCommentList()
+        {
+            //获取表，如果Items表不存在，则新建表Items
+            string sql = @"CREATE TABLE IF NOT EXISTS
+                                COMMENTLIST(
+                                      CommentId VARCHAR(50) NOT NULL,
+                                      UserId VARCHAR(50) NOT NULL,
+                                      Content VARCHAR(600),
+                                      Name VARCHAR(600) NOT NULL,
+                                      picUrl VARCHAR(600) NOT NULL,
+                                      Date CHAR(11) NOT NULL,
+                                      PRIMARY KEY(CommentId, UserId)
+                                      );";
+
+            using (var statement = conn.Prepare(sql))
+            {
+                statement.Step();
+            }
+        }
+
+        public void CreateCommentItem(string commentId, string userId, string content, string name, string picUrl, string date)
+        {
+            using (var statement = conn.Prepare(SQL_INSERT_COMMENTLIST))
+            {
+                //这里的Bind会依次替换掉上面语句中的问号
+                statement.Bind(1, commentId);
+                statement.Bind(2, userId);
+                statement.Bind(3, content);
+                statement.Bind(4, name);
+                statement.Bind(5, picUrl);
+                statement.Bind(6, date);
+                statement.Step();
+            }
+        }
+
+        public void GetAllCommentListItem(ObservableCollection<CommentForSqlModel> commentList, string userId)
+        {
+            using (var statement = conn.Prepare(SQL_SELECTALL_COMMENTLIST))
+            {
+                statement.Bind(1, userId);
+                //statement.Step()将依次获得每一行的结果
+                while (SQLiteResult.ROW == statement.Step())
+                {
+                    //(string id, string picUrl, string url, string name, string artist, double duration, bool like)
+                    //int id = int.Parse(statement[0].ToString());
+                    string commentId = (string)statement[0];
+                    string content = (string)statement[2];
+                    string name = (string)statement[3];
+                    string picUrl = (string)statement[4];
+                    string date = (string)statement[5];
+                    commentList.Add(new CommentForSqlModel(commentId, userId, content, name, picUrl, date));
+                }
+            }
+        }
+
+        private void TestCommentList()
+        {
+            using (var statement = conn.Prepare(SQL_SELECTALL_COMMENTLIST))
+            {
+                statement.Bind(1, "32953014");
+                int count = 0;
+                //statement.Step()将依次获得每一行的结果
+                while (SQLiteResult.ROW == statement.Step())
+                {
+                    count++;
+                }
+                if (count == 0)
+                {
+                    CreateCommentItem("00000001", "32953014", "这首歌还不错", "Me", "ms-appx:///Assets/PersonalInfoControl/DefaultPortrait.jpg", "2016-01-01");
+                    CreateCommentItem("00000002", "32953014", "这首歌不好听", "You", "ms-appx:///Assets/PersonalInfoControl/DefaultPortrait.jpg", "2016-01-02");
+                }
+            }
+        }
+
+        public void InitializeSongerList()
+        {
+            //获取表，如果Items表不存在，则新建表Items
+            string sql = @"CREATE TABLE IF NOT EXISTS
+                                SONGERLIST(
+                                      UserId VARCHAR(50) NOT NULL,
+                                      SongerId INTEGER NOT NULL,
+                                      Name VARCHAR(600) NOT NULL,
+                                      picUrl VARCHAR(600) NOT NULL,
+                                      PRIMARY KEY(UserId, SongerId)
+                                      );";
+
+            using (var statement = conn.Prepare(sql))
+            {
+                statement.Step();
+            }
+        }
+
+        public void CreateSongerItem(string userId, int songerId, string name, string picUrl)
+        {
+            using (var statement = conn.Prepare(SQL_INSERT_SONGERLIST))
+            {
+                //这里的Bind会依次替换掉上面语句中的问号
+                statement.Bind(1, userId);
+                statement.Bind(2, songerId);
+                statement.Bind(3, name);
+                statement.Bind(4, picUrl);
+                statement.Step();
+            }
+        }
+
+        public void SetSongerList(ObservableCollection<CollectedSongerModelResultForDisplay> songerList, string userId)
+        {
+            //ClearSongerList(userId);
+            for(int i = 0; i < songerList.Count; i++)
+            {
+                CreateSongerItem(userId, songerList[i].id, songerList[i].name, songerList[i].picUrl);
+            }
+        }
+
+        public void GetAllSongerListItem(ObservableCollection<CollectedSongerModelResultForDisplay> songerList, String userId)
+        {
+            using (var statement = conn.Prepare(SQL_SELECTALL_SONGERLIST))
+            {
+                statement.Bind(1, userId);
+                //statement.Step()将依次获得每一行的结果
+                while (SQLiteResult.ROW == statement.Step())
+                {
+                    int id = int.Parse(statement[1].ToString());
+                    //Debug.WriteLine(id);
+                    string name = (string)statement[2];
+                    //Debug.WriteLine(name);
+                    string picUrl = (string)statement[3];
+                    songerList.Add(new CollectedSongerModelResultForDisplay(id, name, picUrl));
+                }
+            }
+        }
+
+        public void RemoveSongerItem(ObservableCollection<CollectedSongerModelResultForDisplay> songerList, String userId, int songerId)
+        {
+            CollectedSongerModelResultForDisplay deleteOne = new CollectedSongerModelResultForDisplay();
+            using (var statement = conn.Prepare(SQL_SELECT_SONGERLIST))
+            {
+                statement.Bind(1, userId);
+                statement.Bind(2, songerId);
+                while (SQLiteResult.ROW == statement.Step())
+                {
+                    int id = int.Parse(statement[1].ToString());
+                    string name = (string)statement[2];
+                    string picUrl = (string)statement[3];
+                    deleteOne = new CollectedSongerModelResultForDisplay(id, name, picUrl);
+                }
+            }
+            if (deleteOne.id == 0) return;
+            using (var statement = conn.Prepare(SQL_REMOVE_SONGERLIST))
+            {
+                statement.Bind(1, userId);
+                statement.Bind(2, songerId);
+                statement.Step();
+                songerList.Remove(deleteOne);
+            }
+            
+        }
+
+        private void ClearSongerList(string userId)
+        {
+            Debug.Write("clear");
+            using (var statement = conn.Prepare(SQL_REMOVEALL_SONGERLIST))
+            {
+                statement.Bind(1, userId);
+                while (SQLiteResult.ROW == statement.Step())
+                {
+                    Debug.WriteLine(statement[2].ToString());
+                }
+            }
+        }
     }
 }

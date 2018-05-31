@@ -1,0 +1,39 @@
+﻿<UserControl
+    x:Class="MyMusic.Control.UserSongSheetControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:Model="using:MyMusic.Model">
+
+    <StackPanel>
+        <RelativePanel BorderThickness="0,0,0,1" BorderBrush="#FFe9e9eb">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="ms-appx:///Assets/RecommendContentControl/recommend.png" Width="20" Height="20"></Image>
+                <TextBlock Text="我的歌单" Margin="20,0,0,0"></TextBlock>
+            </StackPanel>
+        </RelativePanel>
+        <Grid>
+            <GridView ItemsSource="{x:Bind Items}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:SongSheetModelResultForDisplay">
+                        <StackPanel Margin="10">
+                            <Image Width="150" Height="150" Source="{x:Bind picUrl}"></Image>
+                            <TextBlock Text="{x:Bind shortName}" MaxWidth="150" MaxHeight="150" Margin="0,10,0,0"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+        <Grid Margin="10">
+            <Button Width="50" Height="50" Content="&#xE710;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Click="CreateSongSheet"></Button>
+            <StackPanel x:Name="newSheet" Visibility="Collapsed" Background="White" Orientation="Horizontal">
+                <TextBlock Text="歌单名:" VerticalAlignment="Center"></TextBlock>
+                <TextBox KeyDown="SheetName_KeyDown" x:Name="SheetName" Width="300" Margin="15"></TextBox>
+                <Button Content="确定" Click="EnsureCreate"></Button>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>

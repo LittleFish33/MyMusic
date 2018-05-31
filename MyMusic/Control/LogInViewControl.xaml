@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="MyMusic.Control.LogInViewControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:viewmodel="using:MyMusic.ViewModel.PersonInfoViewModel"
+             Width="424" Height="278">
+    <Grid x:Name="LayoutRoot" Margin="0,0,0.333,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="423*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFfafafc"/>
+                <GradientStop Color="#FFfafafd" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <TextBlock Height="51"  Margin="117,10,-2641,0" IsColorFontEnabled="True" VerticalAlignment="Top" Text="   网易云登录" TextWrapping="Wrap" FontSize="24" Foreground="#FF222222" Grid.ColumnSpan="2"/>
+        <Line Stroke="Gray" StrokeThickness="1" X1="10"  Y1="40" X2="390" Y2="40" Margin="10,21,-434,-21" Grid.ColumnSpan="2"/>
+        <TextBlock Height="18" HorizontalAlignment="Left" Margin="20,93,0,0" VerticalAlignment="Top" Width="70" Text="手机号:" Foreground="#FF222222"/>
+        <TextBox KeyDown="Password_str_KeyDown"  Height="22" Margin="100,93,28.5,0" VerticalAlignment="Top" ToolTipService.ToolTip="Insert username" x:Name="PhoneNumber_str"/>
+        <TextBlock Height="18" HorizontalAlignment="Left" Margin="20,148,0,0" VerticalAlignment="Top" Width="70" Text="密码:" Foreground="#FF222222"/>
+        <PasswordBox KeyDown="Password_str_KeyDown" Height="22" Margin="100,148,28.5,0" VerticalAlignment="Top" ToolTipService.ToolTip="Insert password" x:Name="Password_str"/>
+        <Button Foreground="#e31217" Background="WhiteSmoke" Opacity="0.7" BorderBrush="#e31217"  BorderThickness="1,1,1,1"    Height="29" Margin="335,222,-393,0" VerticalAlignment="Top" Content="登录" x:Name="btnLogin" Click="btnLogin_Click" Width="58" Grid.ColumnSpan="2"/>
+        <TextBlock Height="50" Margin="117,182,-411,0" VerticalAlignment="Top" Text="Error! Invalid Username and/or Password" Foreground="#FFFF0000" x:Name="txtMessage" Visibility="Collapsed" TextWrapping="Wrap" Grid.ColumnSpan="2"/>
+    </Grid>
+</UserControl>

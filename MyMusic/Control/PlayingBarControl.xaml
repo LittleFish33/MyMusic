@@ -53,7 +53,7 @@
         </Grid>
 
         <StackPanel Margin="30,0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button  x:Name="Previous" Click="Previous_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource PlayingBarControlButtonStyle}" Width="30" Height="30" Background="Transparent" Margin="0,0,10,0">
+            <Button x:Name="Previous" Click="Previous_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource PlayingBarControlButtonStyle}" Width="30" Height="30" Background="Transparent" Margin="0,0,10,0">
                 <Path Data="M0,0L6.8219922,0 6.8219922,16 25.37,0.74398804 25.37,16.001007 25.37,31.259003 6.8219922,16.001007 6.8219922,32 0,32z" Stretch="Uniform" Fill="White" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" Width="14" Height="14">
                     <Path.RenderTransform>
                         <TransformGroup>
