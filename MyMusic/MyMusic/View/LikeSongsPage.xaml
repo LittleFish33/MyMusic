@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="MyMusic.View.LikeSongsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Model="using:MyMusic.Model"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!-- 这只是一个临时的页面，用来看我添加喜欢的音乐有木有成功 -->
+        <ListView  ItemsSource="{x:Bind likeSongsVm.LikeSongs}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="Model:LikeSongModelForSql">
+                    <TextBlock Text="{x:Bind Name}"></TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

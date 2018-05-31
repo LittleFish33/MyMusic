@@ -1,0 +1,117 @@
+﻿<UserControl
+    x:Class="MyMusic.MyControl.ExploreRecommendMiddleControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic.MyControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="800">
+
+    <Grid Height="80" Margin="0,24">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LayoutVisualStates">
+                <VisualState x:Name="WideLayout">
+                    <VisualState.Setters>
+                        <Setter Target="text1.Visibility" Value="Visible"></Setter>
+                        <Setter Target="text2.Visibility" Value="Visible"></Setter>
+                        <Setter Target="text3.Visibility" Value="Visible"></Setter>
+                        <Setter Target="text4.Visibility" Value="Visible"></Setter>
+                        <Setter Target="text5.Visibility" Value="Visible"></Setter>
+                        <Setter Target="text6.Visibility" Value="Visible"></Setter>
+                        <Setter Target="column1.Width" Value="*"></Setter>
+                        <Setter Target="column2.Width" Value="*"></Setter>
+                        <Setter Target="column3.Width" Value="*"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.Setters>
+                        <Setter Target="text1.Visibility" Value="Collapsed"></Setter>
+                        <Setter Target="text2.Visibility" Value="Collapsed"></Setter>
+                        <Setter Target="text3.Visibility" Value="Collapsed"></Setter>
+                        <Setter Target="text4.Visibility" Value="Collapsed"></Setter>
+                        <Setter Target="text5.Visibility" Value="Collapsed"></Setter>
+                        <Setter Target="text6.Visibility" Value="Collapsed"></Setter>
+                        <Setter Target="column1.Width" Value="0"></Setter>
+                        <Setter Target="column2.Width" Value="0"></Setter>
+                        <Setter Target="column3.Width" Value="0"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="0" Grid.Column="0" BorderThickness="0,0,1,0">
+            <Grid.BorderBrush>
+                <SolidColorBrush Color="{StaticResource ERMiddleBorderColor}"/>
+            </Grid.BorderBrush>
+            <Grid BorderThickness="0" HorizontalAlignment="Center" PointerReleased="Grid_GotFocus">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition x:Name="column1" Width="2.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border BorderThickness="1" Margin="0" Grid.RowSpan="2"  Width="50" Height="50" CornerRadius="40">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{StaticResource ERMiddleCircleBorderColor}"/>
+                    </Border.BorderBrush>
+                    <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="ms-appx:///Assets/ExploreMusicPage/PersonalFM.png" Stretch="UniformToFill" Width="25" Height="25"/>
+                </Border>
+                <TextBlock x:Name="text1" Margin="6,0,0,3" Text="私人FM" VerticalAlignment="Bottom" Grid.Column="1"  HorizontalAlignment="Left" FontSize="14"/>
+                <TextBlock x:Name="text2" Margin="6,3,3,0" Text="享受你的音乐专属推荐" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  Foreground="#FF969696" FontSize="12"/>
+            </Grid>
+        </Grid>
+        <Grid Margin="0" Grid.Column="1" BorderThickness="0,0,1,0">
+            <Grid.BorderBrush>
+                <SolidColorBrush Color="{StaticResource ERMiddleBorderColor}"/>
+            </Grid.BorderBrush>
+            <Grid BorderThickness="0" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition x:Name="column2" Width="2.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border BorderThickness="1" Margin="0" Grid.RowSpan="2" Width="50" Height="50" CornerRadius="40">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{StaticResource ERMiddleCircleBorderColor}"/>
+                    </Border.BorderBrush>
+                    <TextBlock x:Name="dayTextBlock" Text="18" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontStretch="Expanded" Width="30" Height="30" FontSize="20">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{StaticResource ERMiddleCircleBorderColor}"></SolidColorBrush>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </Border>
+                <TextBlock x:Name="text3" Margin="6,0,0,3" Text="每日歌曲推荐" VerticalAlignment="Bottom" Grid.Column="1" HorizontalAlignment="Left" FontSize="14"/>
+                <TextBlock x:Name="text4" Margin="6,3,0,0" Text="根据你的口味生成" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  Foreground="#FF969696" FontSize="12"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="2" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition x:Name="column3" Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border  BorderThickness="1" Margin="0" Grid.RowSpan="2"  Width="50" Height="50" CornerRadius="40">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="{StaticResource ERMiddleCircleBorderColor}"/>
+                </Border.BorderBrush>
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="ms-appx:///Assets/ExploreMusicPage/star.png" Stretch="UniformToFill" Width="25" Height="25"/>
+            </Border>
+            <TextBlock x:Name="text5" Margin="6,0,0,3" Text="排行榜" VerticalAlignment="Bottom" Grid.Column="1" HorizontalAlignment="Left" FontSize="14"/>
+            <TextBlock x:Name="text6" Margin="6,3,0,0" Text="最热音乐排行" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="#FF969696" FontSize="12"/>
+        </Grid>
+    </Grid>
+</UserControl>

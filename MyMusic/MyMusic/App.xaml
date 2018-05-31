@@ -1,0 +1,17 @@
+﻿<Application
+    x:Class="MyMusic.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic"
+    xmlns:vm="using:MyMusic.ViewModel"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <ResourceDictionary>
+            <vm:ViewModelLocator x:Key="Locator"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/Style.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Assets/Color.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

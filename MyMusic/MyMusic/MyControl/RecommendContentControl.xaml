@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="MyMusic.MyControl.RecommendContentControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyMusic.MyControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Model="using:MyMusic.Model"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <StackPanel>
+        <RelativePanel BorderThickness="0,0,0,1" BorderBrush="#FFe9e9eb">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="ms-appx:///Assets/RecommendContentControl/recommend.png" Width="20" Height="20"></Image>
+                <TextBlock Text="推荐歌单" Margin="20,0,0,0"></TextBlock>
+            </StackPanel>
+            <TextBlock x:Name="MoreSongSheet" PointerReleased="MoreSongSheet_PointerReleased"  Text="更多 >" RelativePanel.AlignRightWithPanel="True" Foreground="#FF969696"  Margin="0,0,0,6"></TextBlock>
+        </RelativePanel>
+        <Grid>
+            <GridView ItemsSource="{x:Bind RecommendItems}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:RecommendItemModelResultForDisplay">
+                        <StackPanel Margin="10">
+                            <Image Width="150" Height="150" Source="{x:Bind picUrl}"></Image>
+                            <TextBlock Text="{x:Bind shortName}" MaxWidth="150" MaxHeight="150" Margin="0,10,0,0"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+    </StackPanel>
+</UserControl>
